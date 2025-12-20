@@ -19,8 +19,7 @@ import {
 } from 'lucide-react';
 import { getCurrentUser, logout, uploadPayment, getPaymentStatus, isAuthenticated } from '../utils/auth';
 import { toast } from 'sonner';
-
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from '../constants';
 
 export function TenantDashboard() {
   const navigate = useNavigate();

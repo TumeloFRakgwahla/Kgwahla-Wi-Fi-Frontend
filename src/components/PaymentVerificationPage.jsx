@@ -8,8 +8,7 @@ import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Upload, DollarSign, CheckCircle, XCircle, Clock, ArrowLeft } from 'lucide-react';
 import { getCurrentUser, logout, uploadPayment, getPaymentStatus, submitCashPayment, isAuthenticated } from '../utils/auth';
-
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from '../constants';
 import { toast } from 'sonner';
 
 export function PaymentVerificationPage() {

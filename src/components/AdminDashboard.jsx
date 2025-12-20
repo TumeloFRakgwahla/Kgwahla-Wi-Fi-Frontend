@@ -39,8 +39,7 @@ import {
 } from 'lucide-react';
 import { logoutAdmin, getCurrentAdmin } from '../utils/admin-auth';
 import { toast } from 'sonner';
-
-const API_BASE_URL = '/api';
+import { API_BASE_URL } from '../constants';
 
 export function AdminDashboard() {
   const navigate = useNavigate();

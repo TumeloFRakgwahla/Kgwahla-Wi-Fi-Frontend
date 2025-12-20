@@ -7,7 +7,7 @@ export interface Admin {
   role: string;
 }
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 const ADMIN_KEY = 'current_admin';
 
 export const loginAdmin = async (email: string, password: string): Promise<{ admin: Admin; token: string }> => {
