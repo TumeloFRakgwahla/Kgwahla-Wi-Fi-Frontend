@@ -583,13 +583,7 @@ export function AdminDashboard() {
                               </TableCell>
                               <TableCell>
                                 {payment.fileUrl ? (
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => window.open(`${API_BASE_URL}/uploads/${payment.fileUrl}`, '_blank')}
-                                  >
-                                    View
-                                  </Button>
+                                  <span className="text-sm text-slate-600">{payment.fileUrl}</span>
                                 ) : (
                                   <span className="text-slate-400">N/A</span>
                                 )}
