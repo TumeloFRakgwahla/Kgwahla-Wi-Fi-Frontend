@@ -34,6 +34,7 @@ export function RegistrationPage() {
     idNumber: '',
     phone: '',
     email: '',
+    macAddress: '',
     password: '',
     confirmPassword: '',
     expiryDate: '',
@@ -59,19 +60,25 @@ export function RegistrationPage() {
     }
 
     if (!formData.idNumber.trim()) {
-      newErrors.idNumber = 'ID number is required';
-    } else if (formData.idNumber.length < 5) {
-      newErrors.idNumber = 'Please enter a valid ID number';
+      newErrors.idNumber = 'South African ID number is required';
+    } else if (!/^\d{13}$/.test(formData.idNumber.trim())) {
+      newErrors.idNumber = 'Please enter a valid 13-digit South African ID number';
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\+?[\d\s-]{10,}$/.test(formData.phone)) {
-      newErrors.phone = 'Please enter a valid phone number';
+      newErrors.phone = 'Cell phone number is required';
+    } else if (!/^(\+27|0)[6-8][0-9]{8}$/.test(formData.phone.replace(/\s|-/g, ''))) {
+      newErrors.phone = 'Please enter a valid South African cell phone number ( +27712345678 )';
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.macAddress.trim()) {
+      newErrors.macAddress = 'Device MAC address is required';
+    } else if (!/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(formData.macAddress.trim())) {
+      newErrors.macAddress = 'Please enter a valid MAC address (e.g., 00:1B:44:11:3A:B7)';
     }
 
     if (!formData.password) {
@@ -118,6 +125,7 @@ export function RegistrationPage() {
         idNumber: formData.idNumber,
         phone: formData.phone,
         email: formData.email,
+        macAddress: formData.macAddress,
         password: formData.password,
         expiryDate: expiryDate.toISOString(),
       });
@@ -177,7 +185,7 @@ export function RegistrationPage() {
                 <Input
                   id="roomNumber"
                   name="roomNumber"
-                  placeholder="A-101"
+                  placeholder="A"
                   value={formData.roomNumber}
                   onChange={handleChange}
                   className={errors.roomNumber ? 'border-red-500' : ''}
@@ -188,14 +196,15 @@ export function RegistrationPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="idNumber">ID Number *</Label>
+                <Label htmlFor="idNumber">South African ID Number *</Label>
                 <Input
                   id="idNumber"
                   name="idNumber"
-                  placeholder="12345678"
+                  placeholder="1234567890123"
                   value={formData.idNumber}
                   onChange={handleChange}
                   className={errors.idNumber ? 'border-red-500' : ''}
+                  maxLength={13}
                 />
                 {errors.idNumber && (
                   <p className="text-sm text-red-500">{errors.idNumber}</p>
@@ -203,12 +212,12 @@ export function RegistrationPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label htmlFor="phone">South African Cell Phone Number *</Label>
                 <Input
                   id="phone"
                   name="phone"
                   type="tel"
-                  placeholder="+1234567890"
+                  placeholder="+27712345678"
                   value={formData.phone}
                   onChange={handleChange}
                   className={errors.phone ? 'border-red-500' : ''}
@@ -216,6 +225,27 @@ export function RegistrationPage() {
                 {errors.phone && (
                   <p className="text-sm text-red-500">{errors.phone}</p>
                 )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="macAddress">Device MAC Address *</Label>
+                <Input
+                  id="macAddress"
+                  name="macAddress"
+                  placeholder="00:1B:44:11:3A:B7"
+                  value={formData.macAddress}
+                  onChange={handleChange}
+                  className={errors.macAddress ? 'border-red-500' : ''}
+                />
+                {errors.macAddress && (
+                  <p className="text-sm text-red-500">{errors.macAddress}</p>
+                )}
+                <div className="text-xs text-gray-600 mt-1">
+                  <strong>How to find your MAC address:</strong><br />
+                  • Android: Settings → About Phone → Status<br />
+                  • iPhone: Settings → General → About<br />
+                  • Laptop: Network settings or Command Prompt (ipconfig /all)
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -268,7 +298,7 @@ export function RegistrationPage() {
 
               <Alert>
                 <AlertDescription className="text-sm">
-                  * Required fields. Your information is used only for WiFi access management.
+                  Required fields. Your information is used only for WiFi access management.
                 </AlertDescription>
               </Alert>
 

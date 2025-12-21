@@ -425,6 +425,7 @@ export function AdminDashboard() {
                           <TableHead>Name</TableHead>
                           <TableHead>Room</TableHead>
                           <TableHead>Phone</TableHead>
+                          <TableHead>MAC Address</TableHead>
                           <TableHead>WiFi Access</TableHead>
                           <TableHead>Status</TableHead>
                           <TableHead>Expiry</TableHead>
@@ -434,7 +435,7 @@ export function AdminDashboard() {
                       <TableBody>
                         {filteredTenants.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={7} className="text-center text-slate-500 py-8">
+                            <TableCell colSpan={8} className="text-center text-slate-500 py-8">
                               No tenants found
                             </TableCell>
                           </TableRow>
@@ -451,6 +452,9 @@ export function AdminDashboard() {
                               </TableCell>
                               <TableCell>{tenant.roomNumber}</TableCell>
                               <TableCell>{tenant.phone}</TableCell>
+                              <TableCell>
+                                <span className="font-mono text-sm">{tenant.macAddress}</span>
+                              </TableCell>
                               <TableCell>
                                 <Badge variant={tenant.wifiAccess ? "default" : "secondary"}>
                                   {tenant.wifiAccess ? 'Enabled' : 'Disabled'}
