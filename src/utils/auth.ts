@@ -1,5 +1,7 @@
 // Authentication utilities connected to backend API
 
+import { API_BASE_URL } from '../constants';
+
 export interface User {
   id: string;
   name: string;
@@ -22,8 +24,6 @@ export interface Payment {
   uploadedAt: string;
   approvedAt?: string;
 }
-
-const API_BASE_URL = '/api';
 
 export const registerUser = async (userData: {
   name: string;

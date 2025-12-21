@@ -1,5 +1,7 @@
 // Admin authentication utilities connected to backend API
 
+import { API_BASE_URL } from '../constants';
+
 export interface Admin {
   id: string;
   name: string;
@@ -7,7 +9,6 @@ export interface Admin {
   role: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 const ADMIN_KEY = 'current_admin';
 
 export const loginAdmin = async (email: string, password: string): Promise<{ admin: Admin; token: string }> => {
