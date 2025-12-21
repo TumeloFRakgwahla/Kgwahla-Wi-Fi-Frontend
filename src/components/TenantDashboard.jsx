@@ -233,6 +233,10 @@ export function TenantDashboard() {
                 <p>{user.idNumber}</p>
               </div>
               <div>
+                <p className="text-sm text-gray-600">MAC Address</p>
+                <p className="font-mono text-sm">{user.macAddress}</p>
+              </div>
+              <div>
                 <p className="text-sm text-gray-600">Account Status</p>
                 <Badge className="bg-green-500">Verified</Badge>
               </div>

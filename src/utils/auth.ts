@@ -7,6 +7,7 @@ export interface User {
   idNumber: string;
   phone: string;
   email: string;
+  macAddress: string;
   status: 'active' | 'blocked';
   wifiAccess: boolean;
   expiryDate: string;
@@ -30,6 +31,7 @@ export const registerUser = async (userData: {
   idNumber: string;
   phone: string;
   email: string;
+  macAddress: string;
   password: string;
   expiryDate: string;
 }): Promise<User> => {
