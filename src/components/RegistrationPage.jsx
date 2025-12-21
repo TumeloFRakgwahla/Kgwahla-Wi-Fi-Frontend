@@ -298,7 +298,7 @@ export function RegistrationPage() {
 
               <Alert>
                 <AlertDescription className="text-sm">
-                  * Required fields. Please provide valid South African ID number and cell phone number for verification.
+                  Required fields. Your information is used only for WiFi access management.
                 </AlertDescription>
               </Alert>
 
