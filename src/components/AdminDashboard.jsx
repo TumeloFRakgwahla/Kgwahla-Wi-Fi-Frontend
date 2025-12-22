@@ -27,6 +27,14 @@ import {
   TabsTrigger,
 } from './ui/tabs';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
+import {
   Shield,
   LogOut,
   Search,
@@ -36,6 +44,11 @@ import {
   Ban,
   Filter,
   Users,
+  UserCheck,
+  UserX,
+  Unlock,
+  RefreshCw,
+  Trash2,
 } from 'lucide-react';
 import { logoutAdmin, getCurrentAdmin } from '../utils/admin-auth';
 import { toast } from 'sonner';
@@ -53,10 +66,22 @@ export function AdminDashboard() {
   const [paymentSearchQuery, setPaymentSearchQuery] = useState('');
   const [paymentStatusFilter, setPaymentStatusFilter] = useState('all');
   const [activeTab, setActiveTab] = useState('tenants');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastRefresh, setLastRefresh] = useState(new Date());
+  const [tenantToDelete, setTenantToDelete] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   useEffect(() => {
     loadTenants();
     loadPayments();
+
+    // Set up polling for real-time updates (silent refresh)
+    const pollInterval = setInterval(() => {
+      loadTenants(false);
+      loadPayments(false);
+    }, 10000); // Refresh every 10 seconds
+
+    return () => clearInterval(pollInterval);
   }, []);
 
   useEffect(() => {
@@ -67,8 +92,9 @@ export function AdminDashboard() {
     filterPayments();
   }, [paymentSearchQuery, paymentStatusFilter, payments]);
 
-  const loadTenants = async () => {
+  const loadTenants = async (showRefreshing = false) => {
     try {
+      if (showRefreshing) setIsRefreshing(true);
       const token = localStorage.getItem('admin_token');
       const response = await fetch(`${API_BASE_URL}/tenants`, {
         headers: {
@@ -82,15 +108,19 @@ export function AdminDashboard() {
 
       const tenantsData = await response.json();
       setTenants(tenantsData);
+      setLastRefresh(new Date());
     } catch (error) {
       console.error('Error loading tenants:', error);
       toast.error('Failed to load tenants');
       setTenants([]);
+    } finally {
+      if (showRefreshing) setIsRefreshing(false);
     }
   };
 
-  const loadPayments = async () => {
+  const loadPayments = async (showRefreshing = false) => {
     try {
+      if (showRefreshing) setIsRefreshing(true);
       const token = localStorage.getItem('admin_token');
       const response = await fetch(`${API_BASE_URL}/payments/all`, {
         headers: {
@@ -104,10 +134,13 @@ export function AdminDashboard() {
 
       const paymentsData = await response.json();
       setPayments(paymentsData);
+      setLastRefresh(new Date());
     } catch (error) {
       console.error('Error loading payments:', error);
       toast.error('Failed to load payments');
       setPayments([]);
+    } finally {
+      if (showRefreshing) setIsRefreshing(false);
     }
   };
 
@@ -164,6 +197,50 @@ export function AdminDashboard() {
     await loadTenants();
   };
 
+  const handleActivateAccount = async (tenant) => {
+    try {
+      const token = localStorage.getItem('admin_token');
+      const response = await fetch(`${API_BASE_URL}/tenants/activate/${tenant._id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to activate account');
+      }
+
+      toast.success(`Account activated for ${tenant.name}`);
+      await refreshTenants();
+    } catch (error) {
+      console.error('Error activating account:', error);
+      toast.error('Failed to activate account');
+    }
+  };
+
+  const handleDeactivateAccount = async (tenant) => {
+    try {
+      const token = localStorage.getItem('admin_token');
+      const response = await fetch(`${API_BASE_URL}/tenants/deactivate/${tenant._id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to deactivate account');
+      }
+
+      toast.success(`Account deactivated for ${tenant.name}`);
+      await refreshTenants();
+    } catch (error) {
+      console.error('Error deactivating account:', error);
+      toast.error('Failed to deactivate account');
+    }
+  };
+
   const handleBlockTenant = async (tenant) => {
     try {
       const token = localStorage.getItem('admin_token');
@@ -188,26 +265,60 @@ export function AdminDashboard() {
     }
   };
 
-  const handleApproveTenant = async (tenant) => {
+  const handleUnblockTenant = async (tenant) => {
     try {
       const token = localStorage.getItem('admin_token');
-      const response = await fetch(`${API_BASE_URL}/tenants/approve/${tenant._id}`, {
+      const response = await fetch(`${API_BASE_URL}/tenants/unblock`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ tenantId: tenant._id }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to unblock tenant');
+      }
+
+      toast.success(`Tenant ${tenant.name} has been unblocked`);
+      await refreshTenants();
+    } catch (error) {
+      console.error('Error unblocking tenant:', error);
+      toast.error('Failed to unblock tenant');
+    }
+  };
+
+  const handleDeleteTenant = async () => {
+    if (!tenantToDelete) return;
+
+    try {
+      const token = localStorage.getItem('admin_token');
+      const response = await fetch(`${API_BASE_URL}/tenants/${tenantToDelete._id}`, {
+        method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to approve tenant');
+        throw new Error('Failed to delete tenant');
       }
 
-      toast.success(`Tenant ${tenant.name} has been approved and WiFi access enabled`);
+      toast.success(`Tenant ${tenantToDelete.name} and all associated data have been permanently deleted`);
+      setShowDeleteDialog(false);
+      setTenantToDelete(null);
       await refreshTenants();
+      await loadPayments(); // Refresh payments too since tenant payments are deleted
     } catch (error) {
-      console.error('Error approving tenant:', error);
-      toast.error('Failed to approve tenant');
+      console.error('Error deleting tenant:', error);
+      toast.error('Failed to delete tenant');
     }
+  };
+
+  const confirmDeleteTenant = (tenant) => {
+    setTenantToDelete(tenant);
+    setShowDeleteDialog(true);
   };
 
   const handleApprovePayment = async (payment) => {
@@ -307,11 +418,28 @@ export function AdminDashboard() {
               <h1 className="text-slate-900">Admin Dashboard</h1>
             </div>
             <p className="text-slate-600">Welcome back, {admin?.name}</p>
+            <p className="text-xs text-slate-500">
+              Auto-refresh: every 10s • Last updated: {lastRefresh.toLocaleTimeString()}
+              {isRefreshing && <span className="ml-2 text-blue-600">⟳ Refreshing...</span>}
+            </p>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="size-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                loadTenants(true);
+                loadPayments(true);
+              }}
+              disabled={isRefreshing}
+            >
+              <RefreshCw className={`size-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+              {isRefreshing ? 'Refreshing...' : 'Refresh Now'}
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="size-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -472,25 +600,54 @@ export function AdminDashboard() {
                               </TableCell>
                               <TableCell className="text-right">
                                 <div className="flex justify-end gap-2">
-                                  {!tenant.wifiAccess && tenant.status !== 'blocked' && (
+                                  {tenant.status === 'blocked' ? (
                                     <Button
                                       size="sm"
-                                      className="bg-green-600 hover:bg-green-700"
-                                      onClick={() => handleApproveTenant(tenant)}
-                                      title="Approve Tenant & Enable WiFi"
+                                      className="bg-blue-600 hover:bg-blue-700"
+                                      onClick={() => handleUnblockTenant(tenant)}
+                                      title="Unblock Account"
                                     >
-                                      <CheckCircle className="size-4" />
+                                      <Unlock className="size-4" />
                                     </Button>
-                                  )}
-                                  {tenant.status !== 'blocked' && (
-                                    <Button
-                                      size="sm"
-                                      variant="destructive"
-                                      onClick={() => handleBlockTenant(tenant)}
-                                      title="Block Tenant"
-                                    >
-                                      <Ban className="size-4" />
-                                    </Button>
+                                  ) : (
+                                    <>
+                                      {tenant.status === 'inactive' ? (
+                                        <Button
+                                          size="sm"
+                                          className="bg-green-600 hover:bg-green-700"
+                                          onClick={() => handleActivateAccount(tenant)}
+                                          title="Activate Account"
+                                        >
+                                          <UserCheck className="size-4" />
+                                        </Button>
+                                      ) : (
+                                        <Button
+                                          size="sm"
+                                          className="bg-orange-600 hover:bg-orange-700"
+                                          onClick={() => handleDeactivateAccount(tenant)}
+                                          title="Deactivate Account"
+                                        >
+                                          <UserX className="size-4" />
+                                        </Button>
+                                      )}
+                                      <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => handleBlockTenant(tenant)}
+                                        title="Block Account"
+                                      >
+                                        <Ban className="size-4" />
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => confirmDeleteTenant(tenant)}
+                                        title="Permanently Delete Tenant"
+                                        className="bg-red-700 hover:bg-red-800"
+                                      >
+                                        <Trash2 className="size-4" />
+                                      </Button>
+                                    </>
                                   )}
                                 </div>
                               </TableCell>
@@ -586,8 +743,17 @@ export function AdminDashboard() {
                                 {new Date(payment.uploadedAt).toLocaleDateString()}
                               </TableCell>
                               <TableCell>
-                                {payment.fileUrl ? (
-                                  <span className="text-sm text-slate-600">{payment.fileUrl}</span>
+                                {(payment.fileData || payment.fileUrl) ? (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                      const token = localStorage.getItem('admin_token');
+                                      window.open(`${API_BASE_URL}/payments/proof/${payment._id}?token=${token}`, '_blank');
+                                    }}
+                                  >
+                                    View Proof
+                                  </Button>
                                 ) : (
                                   <span className="text-slate-400">N/A</span>
                                 )}
@@ -630,6 +796,34 @@ export function AdminDashboard() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Tenant</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to permanently delete <strong>{tenantToDelete?.name}</strong>?
+                This action cannot be undone and will also delete all associated payment records.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDeleteTenant}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Delete Permanently
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
     </div>
