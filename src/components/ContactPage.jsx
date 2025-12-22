@@ -34,7 +34,7 @@ export function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://kgwahla-wi-fi-bankemd.vercel.app/api'}/contact/submit`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://kgwahla-wi-fi-bankend.vercel.app/api'}/contact/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
