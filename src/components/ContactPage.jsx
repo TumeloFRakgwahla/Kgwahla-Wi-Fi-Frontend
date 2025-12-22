@@ -34,11 +34,22 @@ export function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // Simulate sending message
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'https://kgwahla-wi-fi-bankemd.vercel.app/api'}/contact/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
       toast.success('Message sent successfully! We will get back to you soon.');
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
+      console.error('Contact form error:', error);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
