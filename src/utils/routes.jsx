@@ -2,6 +2,8 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { LandingPage } from "../components/LandingPage";
 import { RegistrationPage } from "../components/RegistrationPage";
 import { LoginPage } from "../components/LoginPage";
+import { ForgotPasswordPage } from "../components/ForgotPasswordPage";
+import { ResetPasswordPage } from "../components/ResetPasswordPage";
 import { PaymentVerificationPage } from "../components/PaymentVerificationPage";
 import { TenantDashboard } from "../components/TenantDashboard";
 import { ProtectedRoute } from "../components/ProtectedRoute";
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/reset-password/:token",
+    element: <ResetPasswordPage />,
   },
   {
     path: "/payment-verification",

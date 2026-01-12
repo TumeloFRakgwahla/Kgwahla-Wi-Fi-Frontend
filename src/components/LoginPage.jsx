@@ -173,15 +173,26 @@ export function LoginPage() {
                 {isSubmitting ? 'Logging in...' : 'Login'}
               </Button>
 
-              <div className="text-center text-sm">
-                Don't have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => navigate('/register')}
-                  className="text-indigo-600 hover:underline"
-                >
-                  Register here
-                </button>
+              <div className="text-center text-sm space-y-2">
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/forgot-password')}
+                    className="text-indigo-600 hover:underline"
+                  >
+                    Forgot your password?
+                  </button>
+                </div>
+                <div>
+                  Don't have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => navigate('/register')}
+                    className="text-indigo-600 hover:underline"
+                  >
+                    Register here
+                  </button>
+                </div>
               </div>
             </form>
           </CardContent>
