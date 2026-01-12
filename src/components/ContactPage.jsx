@@ -153,9 +153,9 @@ export function ContactPage() {
                   <div>
                     <h4 className="mb-1">Admin Office</h4>
                     <p className="text-sm text-slate-600">
-                      Ground Floor, Room 101<br />
-                      Skyline Residences<br />
-                      123 Main Street, City
+                      RDP, Room 3<br />
+                      Kgwahla Residences<br />
+                      9826 Teboga Maadie St, Polokwane
                     </p>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ export function ContactPage() {
                   <div>
                     <h4 className="mb-1">Phone</h4>
                     <p className="text-sm text-slate-600">
-                      +1 (234) 567-890<br />
+                      +27 79 100 2552<br />
                       Available 24/7 for emergencies
                     </p>
                   </div>
@@ -180,9 +180,7 @@ export function ContactPage() {
                   <div>
                     <h4 className="mb-1">Email</h4>
                     <p className="text-sm text-slate-600">
-                      General: admin@skyline.com<br />
-                      Support: support@skyline.com<br />
-                      Privacy: privacy@skyline.com
+                      Support: kgwahlaresidencesext44@gmail.com
                     </p>
                   </div>
                 </div>

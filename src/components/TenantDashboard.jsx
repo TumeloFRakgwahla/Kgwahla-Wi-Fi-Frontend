@@ -299,11 +299,11 @@ export function TenantDashboard() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Network</span>
-                <span>Skyline_Residences_5G</span>
+                <span>Kgwahla_Residences_5G</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Speed</span>
-                <span>100 Mbps</span>
+                <span>10 Mbps</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Auto-renewal</span>
@@ -314,7 +314,7 @@ export function TenantDashboard() {
         </div>
 
         {/* Network Usage */}
-        <Card className="mb-6 shadow-lg">
+        {/* <Card className="mb-6 shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="size-5 text-indigo-600" />
@@ -335,7 +335,7 @@ export function TenantDashboard() {
               <span>{networkUsage.total - networkUsage.used} GB remaining</span>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Upload Additional Payment */}
         <Card className="shadow-lg">
