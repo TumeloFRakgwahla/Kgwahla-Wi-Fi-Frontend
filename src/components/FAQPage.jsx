@@ -66,7 +66,7 @@ export function FAQPage() {
     {
       question: 'Who do I contact for technical support?',
       answer:
-        'For technical issues, contact our support team at support@skyline.com or call the admin office at +1234567890 during business hours.',
+        'For technical issues, contact our support team at kgwahlaresidencesext44@gmail.com or call the admin office at +27 79 100 2552 during business hours.',
     },
     {
       question: 'Is the network secure?',

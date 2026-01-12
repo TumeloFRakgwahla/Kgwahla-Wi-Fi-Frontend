@@ -21,7 +21,7 @@ export function PrivacyPage() {
               <div>
                 <CardTitle>Privacy Policy</CardTitle>
                 <p className="text-sm text-indigo-100 mt-1">
-                  Last updated: December 3, 2025
+                  Last updated: January 12, 2025
                 </p>
               </div>
             </div>
@@ -30,7 +30,7 @@ export function PrivacyPage() {
             <section>
               <h3 className="mb-3">1. Introduction</h3>
               <p className="text-slate-600">
-                Skyline Residences ("we," "our," or "us") is committed to protecting your privacy.
+                Kgwahla Residences ("we," "our," or "us") is committed to protecting your privacy.
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your
                 information when you use our WiFi management service.
               </p>
@@ -179,9 +179,9 @@ export function PrivacyPage() {
               <p className="text-slate-600">
                 If you have questions or concerns about this Privacy Policy or our data practices,
                 please contact us at:<br />
-                Admin Office: Ground Floor, Room 101<br />
-                Email: privacy@skyline.com<br />
-                Phone: +1234567890
+                Admin Office: RDP, Room 3<br />
+                Email: kgwahlaresidencesext44@gmail.com<br />
+                Phone: +27 79 100 2552
               </p>
             </section>
 

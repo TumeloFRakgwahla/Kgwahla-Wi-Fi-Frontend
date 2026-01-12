@@ -21,7 +21,7 @@ export function TermsPage() {
               <div>
                 <CardTitle>Terms & Conditions</CardTitle>
                 <p className="text-sm text-indigo-100 mt-1">
-                  Last updated: December 3, 2025
+                  Last updated: January 12, 2025
                 </p>
               </div>
             </div>
@@ -30,7 +30,7 @@ export function TermsPage() {
             <section>
               <h3 className="mb-3">1. Acceptance of Terms</h3>
               <p className="text-slate-600">
-                By registering for and using the Skyline Residences WiFi service, you agree to
+                By registering for and using the Kgwahla Residences WiFi service, you agree to
                 comply with and be bound by these Terms and Conditions. If you do not agree to
                 these terms, please do not use the service.
               </p>
@@ -39,12 +39,11 @@ export function TermsPage() {
             <section>
               <h3 className="mb-3">2. Service Description</h3>
               <p className="text-slate-600 mb-2">
-                Skyline Residences provides high-speed internet WiFi access to registered tenants.
+                Kgwahla Residences provides high-speed internet WiFi access to registered tenants.
                 The service includes:
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-600 ml-4">
-                <li>100 Mbps internet connectivity</li>
-                <li>500 GB monthly data allowance</li>
+                <li>10 Mbps internet connectivity</li>
                 <li>24/7 network availability</li>
                 <li>Support for up to 3 concurrent devices</li>
               </ul>
@@ -57,7 +56,7 @@ export function TermsPage() {
               </p>
               <ul className="list-disc list-inside space-y-1 text-slate-600 ml-4">
                 <li>Provide accurate and complete registration information</li>
-                <li>Be a current tenant of Skyline Residences</li>
+                <li>Be a current tenant of Kgwahla Residences</li>
                 <li>Maintain the confidentiality of your account credentials</li>
                 <li>Notify the admin immediately of any unauthorized use</li>
               </ul>
@@ -95,9 +94,8 @@ export function TermsPage() {
             <section>
               <h3 className="mb-3">6. Data Usage and Fair Use</h3>
               <p className="text-slate-600">
-                The service includes a 500 GB monthly data allowance. Excessive usage beyond fair
-                use limits may result in speed throttling or additional charges. Unused data does
-                not roll over to the next month.
+                Excessive usage beyond fair use limits may result in speed throttling or additional charges.
+                Unused data doesnot roll over to the next month.
               </p>
             </section>
 
@@ -135,7 +133,7 @@ export function TermsPage() {
             <section>
               <h3 className="mb-3">10. Limitation of Liability</h3>
               <p className="text-slate-600">
-                Skyline Residences and its administrators shall not be liable for any indirect,
+                Kgwahla Residences and its administrators shall not be liable for any indirect,
                 incidental, or consequential damages arising from the use or inability to use the
                 WiFi service, including but not limited to data loss or business interruption.
               </p>
@@ -154,9 +152,9 @@ export function TermsPage() {
               <h3 className="mb-3">12. Contact Information</h3>
               <p className="text-slate-600">
                 For questions about these Terms and Conditions, please contact:<br />
-                Admin Office: Ground Floor, Room 101<br />
-                Email: admin@skyline.com<br />
-                Phone: +1234567890
+                Admin Office: RDP, Room 3<br />
+                Email: kgwahlaresidencesext44@gmail.com<br />
+                Phone: +27 79 100 2552
               </p>
             </section>
 

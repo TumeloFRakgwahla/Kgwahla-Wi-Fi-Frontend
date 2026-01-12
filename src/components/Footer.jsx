@@ -59,7 +59,7 @@ export function Footer() {
         <Separator className="mb-4" />
 
         <div className="text-center text-sm text-slate-600">
-          <p>© 2025 Kgwahla Residences. All rights reserved.</p>
+          <p>© 2026 Kgwahla Residences. All rights reserved.</p>
           <p className="mt-1">High-Speed WiFi Management System</p>
         </div>
       </div>
