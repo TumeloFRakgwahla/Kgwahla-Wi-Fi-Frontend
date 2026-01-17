@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { LandingPage } from "../components/LandingPage";
 import { RegistrationPage } from "../components/RegistrationPage";
 import { LoginPage } from "../components/LoginPage";
-import { ForgotPasswordPage } from "../components/ForgotPasswordPage";
+import { ForgotPasswordPage } from "../components/ForgotPasswordPage.jsx";
 import { ResetPasswordPage } from "../components/ResetPasswordPage";
 import { PaymentVerificationPage } from "../components/PaymentVerificationPage";
 import { TenantDashboard } from "../components/TenantDashboard";

@@ -73,14 +73,6 @@ export function AdminLoginPage() {
                 </Alert>
               )}
 
-              <Alert className="bg-blue-50 border-blue-200">
-                <AlertDescription className="text-sm text-blue-800">
-                  Demo credentials: <br />
-                  Email: <strong>admin@skyline.com</strong> <br />
-                  Password: <strong>admin123</strong>
-                </AlertDescription>
-              </Alert>
-
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
