@@ -91,6 +91,3 @@ Kgwahla-Wi-Fi-Frontend/
 4. Push to the branch
 5. Open a Pull Request
 
-## License
-
-This project is for educational purposes.
